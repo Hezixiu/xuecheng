@@ -9,8 +9,8 @@
 		<relativePath>../xuecheng-parent</relativePath>
 	</parent>
 	<artifactId>xuecheng-base</artifactId>
-	<name>xuecheng-plus-base</name>
-	<description>xuecheng-plus-base</description>
+	<name>xuecheng-base</name>
+	<description>xuecheng-base</description>
 
 	<dependencies>
 		<dependency>

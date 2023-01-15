@@ -3,52 +3,34 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>xuecheng-content</artifactId>
 		<groupId>com.xuecheng</groupId>
 		<version>0.0.1-SNAPSHOT</version>
-
+		<artifactId>xuecheng-parent</artifactId>
+		<relativePath>../xuecheng-parent</relativePath>
 	</parent>
-	<artifactId>xuecheng-content-api</artifactId>
+
+	<artifactId>xuecheng-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>xuecheng-content-api</name>
-	<description>xuecheng-content-api</description>
+	<name>xuecheng-gateway</name>
+	<description>xuecheng-gateway</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
-
 	<dependencies>
-<!--		nacos 注册服务依赖-->
+		<!--网关-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+		</dependency>
+		<!--服务发现中心-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
-<!--		nacos 配置发现依赖-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.xuecheng</groupId>
-			<artifactId>xuecheng-content-model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.xuecheng</groupId>
-			<artifactId>xuecheng-content-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<!--cloud的基础环境包-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-context</artifactId>
-		</dependency>
-		<!-- Spring Boot 的 Spring Web MVC 集成 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
 
 		<!-- 排除 Spring Boot 依赖的日志包冲突 -->
 		<dependency>
@@ -61,24 +43,26 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
+
 		<!-- Spring Boot 集成 log4j2 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
-
-		<!-- Spring Boot 集成 swagger -->
 		<dependency>
-			<groupId>com.spring4all</groupId>
-			<artifactId>swagger-spring-boot-starter</artifactId>
-			<version>1.9.0.RELEASE</version>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 
 	</dependencies>
+
 
 </project>

@@ -3,25 +3,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>xuecheng-content</artifactId>
+        <artifactId>xuecheng-media</artifactId>
         <groupId>com.xuecheng</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>xuecheng-content-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>xuecheng-content-service</name>
-    <description>xuecheng-content-service</description>
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+    <artifactId>xuecheng-media-service</artifactId>
+    <name>xuecheng-media-service</name>
+    <description>xuecheng-media-service</description>
+
     <dependencies>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xuecheng</groupId>
-            <artifactId>xuecheng-content-model</artifactId>
+            <artifactId>xuecheng-media-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -61,15 +58,7 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
-    </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    </dependencies>
 
 </project>
