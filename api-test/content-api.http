@@ -8,5 +8,34 @@ Content-Type: application/json
   "publishStatus": ""
 }
 
-###
-GET {{content_host}}/content/course-category/tree-nodes
+###  获取所有的课程分类
+GET {{gateway_host}}/content/course-category/tree-nodes
+
+###  新增课程
+POST {{gateway_host}}/content/course
+Content-Type: application/json
+
+{
+  "charge": "201000",
+  "price": 10,
+  "originalPrice":10,
+  "qq": "22333",
+  "wechat": "223344",
+  "phone": "13333333",
+  "validDays": 365,
+  "mt": "1-1",
+  "st": "1-1-1",
+  "name": "",
+  "pic": "testPIC",
+  "teachmode": "200002",
+  "users": "初级人员",
+  "tags": "testTag",
+  "grade": "204001",
+  "description": "desc",
+  "objectives": "ob"
+}
+
+### 查询某个课程的课程计划
+
+GET {{gateway_host}}/content/teachplan/117/tree-nodes
+Content-Type: application/json

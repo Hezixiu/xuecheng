@@ -21,10 +21,76 @@
         <result column="create_date" property="createDate" />
         <result column="change_date" property="changeDate" />
     </resultMap>
-
+    <resultMap id="treeNodeResultMap" type="com.xuecheng.content.model.dto.TeachPlanDto">
+        <!-- 一级数据映射 -->
+        <id     column="parent_id"        property="id" />
+        <result column="parent_pname"      property="pname" />
+        <result column="parent_parentid"     property="parentid" />
+        <result column="parent_grade"  property="grade" />
+        <result column="parent_mediaType"   property="mediaType" />
+        <result column="parent_stratTime"   property="stratTime" />
+        <result column="parent_endTime"   property="endTime" />
+        <result column="parent_orderby"   property="orderby" />
+        <result column="parent_courseId"   property="courseId" />
+        <result column="parent_coursePubId"   property="coursePubId" />
+        <!-- 一级中包含多个二级数据 -->
+        <collection property="teachPlanTreeNodes" ofType="com.xuecheng.content.model.dto.TeachPlanDto">
+            <!-- 二级数据映射 -->
+            <id     column="child_id"        property="id" />
+            <result column="child_pname"      property="pname" />
+            <result column="child_parentid"     property="parentid" />
+            <result column="child_grade"  property="grade" />
+            <result column="child_mediaType"   property="mediaType" />
+            <result column="child_stratTime"   property="stratTime" />
+            <result column="child_endTime"   property="endTime" />
+            <result column="child_orderby"   property="orderby" />
+            <result column="child_courseId"   property="courseId" />
+            <result column="child_coursePubId"   property="coursePubId" />
+            <association property="teachplanMedia" javaType="com.xuecheng.content.model.po.TeachplanMedia">
+                <result column="teachplanMeidaId"   property="id" />
+                <result column="mediaFilename"   property="mediaFilename" />
+                <result column="mediaId"   property="mediaId" />
+                <result column="child_id"   property="teachplanId" />
+                <result column="child_courseId"   property="courseId" />
+                <result column="child_coursePubId"   property="coursePubId" />
+            </association>
+        </collection>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, pname, parentid, grade, media_type, start_time, end_time, description, timelength, orderby, course_id, course_pub_id, status, is_preview, create_date, change_date
     </sql>
+    <select id="selectTreeNodes" resultMap="treeNodeResultMap" parameterType="long" >
+        select
+            parent.id             parent_id,
+            parent.pname          parent_pname,
+            parent.parentid       parent_parentid,
+            parent.grade          parent_grade,
+            parent.media_type     parent_mediaType,
+            parent.start_time     parent_stratTime,
+            parent.end_time       parent_endTime,
+            parent.orderby        parent_orderby,
+            parent.course_id      parent_courseId,
+            parent.course_pub_id  parent_coursePubId,
+            child.id             child_id,
+            child.pname          child_pname,
+            child.parentid       child_parentid,
+            child.grade          child_grade,
+            child.media_type     child_mediaType,
+            child.start_time     child_stratTime,
+            child.end_time       child_endTime,
+            child.orderby        child_orderby,
+            child.course_id      child_courseId,
+            child.course_pub_id  child_coursePubId,
+            media.media_fileName mediaFilename,
+            media.id teachplanMeidaId,
+            media.media_id mediaId
 
+        FROM teachplan parent
+                 LEFT JOIN  teachplan child ON parent.id = child.parentid
+                 LEFT JOIN teachplan_media media ON media.teachplan_id = child.id
+        WHERE parent.parentid = 0 AND parent.course_id=#{value}
+        ORDER BY parent.orderby,
+                 child.orderby
+    </select>
 </mapper>

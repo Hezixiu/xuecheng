@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: media-service
+  cloud:
+    nacos:
+      server-addr: localhost:80
+      discovery:
+        namespace: dev
+        group: xuecheng-project
+      config:
+        namespace: dev
+        group: xuecheng-project
+        file-extension: yml
+        refresh-enabled: true
+      shared-configs:
+        - data-id: logging-${spring.profiles.active}.yml
+          group: xuecheng-plus-common
+          refresh: true
+
+#profiles默认为dev
+  profiles:
+    active: dev
+
+
+

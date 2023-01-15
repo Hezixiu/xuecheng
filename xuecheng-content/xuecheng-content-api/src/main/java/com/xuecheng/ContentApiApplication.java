@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 //启动Swagger 生成文档功能
 @EnableSwagger2Doc
-@SpringBootApplication()
+@SpringBootApplication
 public class ContentApiApplication {
 
 	public static void main(String[] args) {
