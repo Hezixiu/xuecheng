@@ -39,3 +39,14 @@ Content-Type: application/json
 
 GET {{gateway_host}}/content/teachplan/117/tree-nodes
 Content-Type: application/json
+
+###  上传文件
+POST {{media_host}}/media/upload/coursefile
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="filedata"; filename="minioOutPut.jpg"
+Content-Type: image/jpeg
+
+< D:/minioOutPut.jpg
+/mediafiles/2023/01/16/7a360b810b00d543f819b20ea01ba306.jpg

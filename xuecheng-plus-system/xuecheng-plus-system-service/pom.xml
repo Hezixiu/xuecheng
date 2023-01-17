@@ -47,7 +47,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!--        spring cloud阿里巴巴依赖 nacos 配置发现-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <!-- Spring Boot 集成 log4j2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

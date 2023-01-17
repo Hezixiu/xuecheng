@@ -1,7 +1,6 @@
 package com.xuecheng.content.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.xuecheng.base.exception.XueChengException;
@@ -48,7 +47,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     @Override
     public PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
 //      设置分页参数
-        Page<CourseBase> pageInfo = new Page<>(pageParams.getPageCurrent(),pageParams.getPageSize());
+        Page<CourseBase> pageInfo = new Page<>(pageParams.getPageNo(),pageParams.getPageSize());
         LambdaQueryWrapper<CourseBase> queryWrapper = new LambdaQueryWrapper<>();
 //      模糊查询
         queryWrapper.like(StringUtils.isNotEmpty(queryCourseParamsDto.getCourseName()),CourseBase::getName,queryCourseParamsDto.getCourseName());
@@ -64,7 +63,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         List<CourseBase> records = queryResult.getRecords();
 //          查询到的记录数
         long total = queryResult.getTotal();
-        PageResult<CourseBase> pageResult = new PageResult<>(records,total, pageParams.getPageCurrent(), pageParams.getPageSize());
+        PageResult<CourseBase> pageResult = new PageResult<>(records,total, pageParams.getPageNo(), pageParams.getPageSize());
 
         return pageResult;
     }

@@ -1,6 +1,5 @@
 package com.xuecheng.base.model;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +19,7 @@ public class PageParams {
 
     @ApiModelProperty("当前页码")
 //    当前页码
-    public Long pageCurrent = DEFAULT_PAGE_CURRENT;
+    public Long pageNo = DEFAULT_PAGE_CURRENT;
 
     @ApiModelProperty("每页显示记录数")
 //    每页记录数的默认值
