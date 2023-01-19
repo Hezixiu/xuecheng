@@ -9,6 +9,7 @@ import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public interface MediaFileService {
       */
      UploadFileResultDto uploadFile(Long companyId,byte[] fileBytes , UploadFileParamsDto uploadFileParamsDto,String folderPath,String objectName);
      MediaFiles addMediaFilesToDB(Long companyId,String fileId,UploadFileParamsDto uploadFileParamsDto,String bucketName,String objectName);
-
+    void addMediaFilesToMinIO(String filePath, String bucket, String objectName);
 //    检查文件是否存在
     public RestResponse<Boolean> checkFile(String fileMd5);
 //    检查分块是否存在
@@ -44,4 +45,7 @@ public interface MediaFileService {
 
 
     RestResponse mergechunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto) throws IOException;
+
+    public MediaFiles getFileById(String id );
+    File downloadFileFromMinIO(File file, String bucket, String objectName);
 }

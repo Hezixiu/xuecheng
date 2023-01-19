@@ -47,7 +47,7 @@ public class MediaProcess implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDate;
-
+    private String filePath;
     /**
      * 完成时间
      */
@@ -57,6 +57,8 @@ public class MediaProcess implements Serializable {
      * 媒资文件访问地址
      */
     private String url;
+//    错误原因
+    private String ErrorMsg;
 
 
 }

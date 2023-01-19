@@ -10,10 +10,12 @@ import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
 import com.xuecheng.base.model.RestResponse;
 import com.xuecheng.media.mapper.MediaFilesMapper;
+import com.xuecheng.media.mapper.MediaProcessMapper;
 import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
+import com.xuecheng.media.model.po.MediaProcess;
 import com.xuecheng.media.service.MediaFileService;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +44,8 @@ public class MediaFileServiceImpl implements MediaFileService {
     MediaFilesMapper mediaFilesMapper;
     @Autowired
     MinioClient minioClient;
-
+    @Autowired
+    MediaProcessMapper mediaProcessMapper;
     @Autowired
     MediaFileService mediaFileServiceProxy;
 
@@ -133,14 +136,28 @@ public class MediaFileServiceImpl implements MediaFileService {
             mediaFiles.setCompanyId(companyId);
             mediaFiles.setBucket(bucket);
             mediaFiles.setFilePath(objectName);
-            mediaFiles.setUrl("/" + bucket + "/" + objectName);
+//            图片 MP4的视频可以设置URL
+            String extension = null;
+            String filename = uploadFileParamsDto.getFilename();
+            if (StringUtils.isNotEmpty(filename) &&filename.contains(".")){
+                extension = filename.substring(filename.lastIndexOf("."));
+            }
+            String contentType = getContentTypeByExtension(extension);
+            if (contentType.contains("image")||contentType.contains("mp4")) {
+                mediaFiles.setUrl("/" + bucket + "/" + objectName);
+            }
             mediaFiles.setCreateDate(LocalDateTime.now());
             mediaFiles.setStatus("1");
             mediaFiles.setAuditStatus("002003");
-
-
             //插入文件表
             mediaFilesMapper.insert(mediaFiles);
+//          对。avi的视频添加到待处理的process表
+            if (contentType.contains("video/x-msvideo")){
+                MediaProcess mediaProcess = new MediaProcess();
+                BeanUtils.copyProperties(mediaFiles, mediaProcess);
+                mediaProcess.setStatus("1"); //设置状态为未处理
+                mediaProcessMapper.insert(mediaProcess);
+            }
 
 
 
@@ -339,7 +356,7 @@ public class MediaFileServiceImpl implements MediaFileService {
             }
 
             //下载分块文件
-            downloadFileFromMinIO(chunkFile, bucketName_video, chunkFilePath);
+            chunkFile = downloadFileFromMinIO(chunkFile, bucketName_video, chunkFilePath);
             chunkFiles[i] = chunkFile;
 
         }
@@ -371,7 +388,7 @@ public class MediaFileServiceImpl implements MediaFileService {
     }
 
     //将文件上传到文件系统
-    private void addMediaFilesToMinIO(String filePath, String bucket, String objectName){
+    public  void addMediaFilesToMinIO(String filePath, String bucket, String objectName){
         try {
             UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
                     .bucket(bucket)
@@ -400,8 +417,6 @@ public class MediaFileServiceImpl implements MediaFileService {
             }
 
         }
-
-
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 
@@ -442,5 +457,38 @@ public class MediaFileServiceImpl implements MediaFileService {
             folderString.append("/");
         }
         return folderString.toString();
+    }
+    /**
+     * @Author Linzkr
+     * @Description  根据文件扩展名返回ContentType
+     * @Date 2023/1/18 10:14
+     * @param extension 文件的扩展名
+     * @return  返回一个contentType
+     */
+    private String getContentTypeByExtension(String extension){
+
+        //资源的媒体类型
+        String contentType = MediaType.APPLICATION_OCTET_STREAM;//默认未知二进制流
+        if (extension!=null&&!extension.trim().isEmpty()) {
+            ContentInfo extensionMatch = ContentInfoUtil.findExtensionMatch(extension);
+            if (extensionMatch != null) {
+                contentType = extensionMatch.getMimeType();
+            }
+        }
+        return contentType;
+
+    }
+
+    @Override
+    public MediaFiles getFileById(String id) {
+        MediaFiles mediaFiles = mediaFilesMapper.selectById(id);
+        if (mediaFiles==null){
+            XueChengException.cast("文件不存在");
+        }
+        String url = mediaFiles.getUrl();
+        if (StringUtils.isEmpty(url)){
+            XueChengException.cast("文件还没有处理，请稍后预览");
+        }
+        return mediaFiles;
     }
 }

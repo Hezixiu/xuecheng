@@ -3,6 +3,7 @@ package com.xuecheng.media.api;
 import com.xuecheng.base.exception.XueChengException;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
+import com.xuecheng.base.model.RestResponse;
 import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
@@ -15,14 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * @author Mr.M
- * @version 1.0
- * @description 媒资文件管理接口
- * @date 2022/9/6 11:29
+ * @Author Linzkr
+ * @Description  TODO 媒资管理的Controller
+ * @Date 2023/1/18 10:05
  */
+
 @Api(value = "媒资文件管理接口", tags = "媒资文件管理接口")
 @RestController
 public class MediaFilesController {
@@ -39,7 +38,7 @@ public class MediaFilesController {
         return mediaFileService.queryMediaFiles(companyId, pageParams, queryMediaParamsDto);
 
     }
-
+    @GetMapping("上传图片接口")
     @RequestMapping(value = "/upload/coursefile", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public UploadFileResultDto upload(@RequestPart("filedata") MultipartFile filedata,
                                       @RequestParam(value = "folder",required=false) String folder,
@@ -68,4 +67,17 @@ public class MediaFilesController {
 
     }
 
+    /**
+     * @Author Linzkr
+     * @Description 预览文件
+     * @Date 2023/1/18 10:06
+     * @param mediaId 媒体Id
+     * @return  响应结果 是文件在文件系统中的地址
+     */
+    @ApiOperation("媒资预览接口")
+    @GetMapping("/preview/{mediaId}")
+    public RestResponse<String> getPlayUrlByMediaId(@PathVariable("mediaId") String mediaId){
+        MediaFiles mediaFiles = mediaFileService.getFileById(mediaId);
+        return RestResponse.success(mediaFiles.getUrl());
+    }
 }
