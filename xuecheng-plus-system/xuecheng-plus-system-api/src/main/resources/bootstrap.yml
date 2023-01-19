@@ -4,7 +4,7 @@ spring:
     name: system-api
   cloud:
     nacos:
-      server-addr: localhost:80
+      server-addr: localhost:81
       discovery:
         namespace: dev
         group: xuecheng-project

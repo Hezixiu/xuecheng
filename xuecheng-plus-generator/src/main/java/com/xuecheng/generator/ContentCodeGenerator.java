@@ -26,14 +26,14 @@ public class ContentCodeGenerator {
 	private static final String[] TABLE_NAMES = new String[]{
 //			"mq_message",
 //			"mq_message_history"
-			 "course_base",
-			 "course_market",
-			 "teachplan",
-			 "teachplan_media",
-			 "course_teacher",
-			 "course_category"
-//			 "course_publish",
-//			 "course_publish_pre"
+//			 "course_base",
+//			 "course_market",
+//			 "teachplan",
+//			 "teachplan_media",
+//			 "course_teacher",
+//			 "course_category"
+			 "course_publish",
+			 "course_publish_pre"
 //			"course_category"
 	};
 

@@ -60,8 +60,9 @@ public class MediaFileServiceImpl implements MediaFileService {
         //构建查询条件对象
         LambdaQueryWrapper<MediaFiles> queryWrapper = new LambdaQueryWrapper<>();
 //        进行模糊查询
-        queryWrapper.like(MediaFiles::getFileType,queryMediaParamsDto.getFileType());
-        queryWrapper.like(MediaFiles::getFilename,queryMediaParamsDto.getFilename());
+
+        queryWrapper.like(queryMediaParamsDto.getFileType()!=null,MediaFiles::getFileType,queryMediaParamsDto.getFileType());
+        queryWrapper.like(queryMediaParamsDto.getFilename()!=null,MediaFiles::getFilename,queryMediaParamsDto.getFilename());
         //分页对象
         Page<MediaFiles> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
 

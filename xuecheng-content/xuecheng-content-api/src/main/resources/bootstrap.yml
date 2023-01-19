@@ -4,7 +4,7 @@ spring:
     name: content-api
   cloud:
     nacos:
-      server-addr: localhost:80
+      server-addr: localhost:81
       discovery:
         namespace: dev
         group: xuecheng-project
@@ -26,6 +26,9 @@ spring:
             group: common
             refresh: true
           - data-id: logging-${spring.profiles.active}.yml
+            group: common
+            refresh: true
+          - data-id: freemarker-config-${spring.profiles.active}.yml
             group: common
             refresh: true
   profiles:
